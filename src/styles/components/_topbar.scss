@@ -1,0 +1,16 @@
+.navigation {
+  background-color: $dark-grey;
+  display: block;
+  height: 30px;
+  overflow: hidden;
+  right: -15em;
+  text-align: center;
+  width: 100%;
+  .app-navlink {
+    color: $white;
+    padding: 10px;
+  }
+  .active {
+    color: $primary;
+  }
+}
