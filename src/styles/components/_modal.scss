@@ -10,11 +10,65 @@
 .modal-main {
   position:fixed;
   background: white;
-  width: 80%;
+  border-radius: 5px;
+  width: 400px;
   height: auto;
   top:50%;
   left:50%;
   transform: translate(-50%,-50%);
+  .app-button-close {
+    background: $dark-grey;
+    border-radius: 3px;
+    color: $primary;
+    cursor: pointer;
+    display:inline-block;
+    float: right;
+    padding:2px 5px;
+  }
+  .app-button-close:hover {
+    color: $dark-grey;
+    background: $primary;
+  }
+  .app-input.card{
+    width: 200px;
+  }
+  .app-div-list {
+    height: 300px;
+    margin-top: -10px;
+    overflow:scroll;
+    padding-bottom: 10px;
+    .app-list {
+      list-style: none;
+      padding: 0px;
+      width: 350px;
+      margin: auto;
+      li {
+        border: solid 1px $primary;
+        border-radius: 3px;
+        cursor: pointer;
+        display: flex;
+        width: 100%;
+        div {
+          margin: 4px;
+          position: relative;
+          padding-right: 15px;
+          padding-left: 15px;
+          width: 100%;
+        }
+        .app-list-city {
+  
+        }
+        .app-list-city {
+  
+        }
+        &:hover { 
+          background-color: darken($color: $primary, $amount: 1);
+          color: $white;
+        }
+      }
+    }
+  }
+  
 }
 
 .display-block {
