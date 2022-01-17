@@ -24,7 +24,7 @@ export const FormBooking = () => {
   }
  };
 
-  const handleBooking = () => {
+  const handleBooking = (e) => {
     dispatch(statusBooking(null))
   }
 
@@ -108,7 +108,7 @@ export const FormBooking = () => {
         onChange={handleInputChange}
       />
       <div className="app-form-action">
-        <button className="btn btn-primary btn-block" onClick={handleBooking}>
+        <button type="button" className="btn btn-primary btn-block" onClick={handleBooking}>
           cancelar
         </button>
         <button type="submit" className="btn btn-success btn-block">
