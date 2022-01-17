@@ -1,10 +1,21 @@
 import React from 'react'
+import { useSelector } from 'react-redux';
+import { FormBooking } from './FormBooking'
+import { ItemList } from './ItemList'
 
 export const Booking = () => {
+  const { status } = useSelector(state => state.booking);
   return (
     <>
-      <h1 className='animate__animated animate__zoomInDown'>Mis reservas</h1>
-
+      <div className="app-row-item app-text-center">
+      {
+        !status
+        ?
+        <ItemList />
+        :
+        <FormBooking />
+      }
+      </div>
     </>
   )
 }

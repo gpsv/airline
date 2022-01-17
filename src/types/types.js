@@ -4,6 +4,7 @@ export const types = {
   setAllCities: '[Flight] setAllCities',
   setSearchCity: '[Flight] setSearchCity',
   setBooking: '[Flight] setBooking',
+  resetBooking: '[Flight] resetBooking',
   setSchedules: '[Flight] setSchedules',
   flightStartLoading: '[Flight] Start loading',
   flightFinishLoading: '[Flight] Finish loading',
@@ -16,5 +17,7 @@ export const types = {
   setBookingSelected: '[Booking] setBookingSelected',
   removeBookingSelected: '[Booking] removeBookingSelected',
   addBooking: '[Booking] addBooking',
-  removeBooking: '[Booking] removeBooking'
+  removeBooking: '[Booking] removeBooking',
+  sendBooking: '[Booking] sendBooking',
+  statusBooking: '[Booking] statusBooking',
 }

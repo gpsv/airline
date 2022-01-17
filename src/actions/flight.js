@@ -79,6 +79,17 @@ export const setBooking = ( booking ) => ({
   payload: booking
 });
 
+export const resetBooking = () => ({
+  type: types.setBooking,
+  payload: {
+    departure: {},
+    arrival: {},
+    schedule: {},
+    persons: 0,
+    price: 0
+  }
+});
+
 export const setSearchCity = ( city ) => ({
   type: types.setSearchCity,
   payload: {

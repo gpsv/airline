@@ -12,4 +12,13 @@ export const removeBookingSelected = () => ({
 export const addBooking = ( booking ) => ({
   type: types.addBooking,
   payload: booking
+})
+export const statusBooking = ( status ) => ({
+  type: types.statusBooking,
+  payload: status
+});
+
+export const sendBooking = () => ({
+  type: types.sendBooking,
+  payload: []
 });

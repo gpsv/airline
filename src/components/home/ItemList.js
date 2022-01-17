@@ -73,6 +73,5 @@ export const ItemList = ( { source = 'departure',  setCity }) => {
         }
       </ul>
     </>
-
   )
 };

@@ -4,7 +4,8 @@ import moment from 'moment';
 import { showModal } from '../../actions/modal';
 import { ModalList } from './ModalList'
 import { removeErrorForm, setErrorForm } from '../../actions/forms.js';
-import { addBooking, setBookingSelected } from '../../actions/booking';
+import { addBooking, removeBookingSelected, setBookingSelected } from '../../actions/booking';
+import { resetBooking } from '../../actions/flight';
 
 export const FormSearch = () => {
   const dispatch = useDispatch()
@@ -16,6 +17,7 @@ export const FormSearch = () => {
   const [person, setPerson] = useState(0);
   const [price, setPrice] = useState(0)
   const [priceToday, setPriceTopday] = useState(Math.floor(Math.random() * (1500 - 300 )));
+  
   const actionShowModal = ( source ) => {
     setSource(source)
     dispatch(showModal())
@@ -41,27 +43,34 @@ export const FormSearch = () => {
       dispatch(setErrorForm('Agregue a una persona por lo menos'));
       return false;
     }
-    dispatch(removeErrorForm('Selecciona un origen'));
+    dispatch(removeErrorForm());
     return true
   };
   
-  const handleBooking = (e) => {
-    e.preventDefault();
-    if ( isFormValid() ) {
-      const finalItem = booking;
-      finalItem.persons = person;
-      finalItem.price = price;
-      finalItem.schedule = bookingSelected;
-      const itemCart = [...userBooking, finalItem]
-      dispatch(addBooking(itemCart))
-    }
-  };
+  const resetForm = () => {
+    setPerson(0);
+    dispatch(resetBooking());
+    dispatch(removeBookingSelected());
+  }
 
   const handlePerson = ({ target }) => {
     setPerson(target.value)
-    setPrice(Number.parseFloat(target.value * priceToday).toFixed(2))
+    setPrice(Number.parseFloat(target.value * priceToday).toFixed(2));
   };
 
+  const handleBooking = (e) => {
+    e.preventDefault();
+    if ( isFormValid() ) {
+      const finalItem = bookingSelected;
+      finalItem.persons = person;
+      finalItem.price = price;
+      finalItem.schedule = booking;
+      const itemCart = [...userBooking, finalItem]
+      dispatch(addBooking(itemCart))
+      resetForm()
+    }
+  };
+  
   return (
     <>
       <div className="app-container ">
@@ -72,7 +81,7 @@ export const FormSearch = () => {
         <h1 className='animate__animated animate__zoomInDown'>Buscando un destino</h1>
           {
             loading
-            && (<span className='animate__animated animate__fadeInDown'>Buscando...</span>)
+            && (<span className='animate__animated animate__fadeInDown'>Procesando...</span>)
           }
           <div className="app-cardForm">
             <div className="app-item-row">
@@ -126,7 +135,6 @@ export const FormSearch = () => {
             </div>
             <div className="app-card col-s-6 col-12">
               <div className="app-row app-text-center">
-                <p>Numero de personas</p>
                 <input
                   type="number"
                   placeholder="Numero de personas"
@@ -143,7 +151,7 @@ export const FormSearch = () => {
           </div>
           <button
             type="submit"
-            className="btn btn-primary btn-block"
+            className="btn btn-success btn-block"
           >
             Agregar
           </button>

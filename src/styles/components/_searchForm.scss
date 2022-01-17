@@ -21,6 +21,14 @@
   .app-parrafo{
     padding-top: 20px;
   }
+  .app-form-action {
+    display: flex;
+    button {
+      width: 40%;
+      padding-left: 5%;
+      padding-right: 5%;
+    }
+  }
 }
 .app-input {
   color: $dark-grey;
@@ -74,4 +82,11 @@
  }
  .app-select option {
   font-weight:normal;
+ }
+ .app-div-form{
+  max-width: 600px;
+  margin: auto;
+  padding: 15px;
+  border-radius: 10px;
+  border: 1px solid $primary;
  }

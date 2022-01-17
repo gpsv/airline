@@ -58,6 +58,11 @@ export const flightReducer = (state = initialState, action) => {
         ...state,
         booking: action.payload
       }
+    case types.resetBooking:
+        return {
+          ...state,
+          booking: action.payload
+        }
     default:
       return state
   }

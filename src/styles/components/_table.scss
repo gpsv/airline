@@ -1,0 +1,33 @@
+.app-table {
+  border-collapse: collapse;
+  width: 98%;
+  min-width: 300px;
+  padding: 10px;
+  margin-left: 10px;
+  .app-table-actions {
+    text-align: right !important;
+    button {
+      padding: 5px;
+    }
+  }
+  .app-price {
+    text-align: right;
+  }
+  th {
+    padding-top: 2px;
+    padding-bottom: 2px;
+    text-align: left;
+    background-color: $dark-grey;
+    color: white;
+  }
+  td, th {
+    border: 1px solid #ddd;
+    padding: 4px;
+  }
+  tr:hover {
+    background-color: #ddd;
+  }
+  tr:nth-child(even){
+    background-color: #f2f2f2;
+  }
+}

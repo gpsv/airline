@@ -24,10 +24,18 @@
       background-color: lighten($color: $primary, $amount: 15);
   }
   &:hover { 
-      background-color: darken($color: $primary, $amount: 35);
+      background-color: darken($color: $primary, $amount: 15);
   }
 }
-
+.btn-success {
+  background-color: $success;
+  &:disabled {
+      background-color: lighten($color: $success, $amount: 15);
+  }
+  &:hover { 
+      background-color: darken($color: $success, $amount: 15);
+  }
+}
 .btn-block {
   padding-left: 25%;
   padding-right: 25%;

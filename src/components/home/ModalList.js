@@ -17,10 +17,10 @@ export const ModalList = ( { source } ) => {
   };
 
   const handleInputChange = ( { target }) => {
+    dispatch( setSearchCity( target.value ))
     setCity({
       [ target.name ]: target.value
     });
-    dispatch( setSearchCity( city ))
   }
 
   useEffect(() => {
