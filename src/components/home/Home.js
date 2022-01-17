@@ -1,7 +1,9 @@
 import React, { useEffect } from 'react'
 import { FormSearch } from './FormSearch'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { getCities, getAirports, getAllCities } from '../../actions/flight'
+import { Airline } from './Airline'
+import { Flight } from './Flight'
 
 export const Home = () => {
   const dispatch = useDispatch();
@@ -10,12 +12,27 @@ export const Home = () => {
     dispatch(getAirports());
     dispatch(getAllCities());
   });
+
+  const { bookingSelected } = useSelector(state => state.booking);
   return (
     <>
-      <h1 className='animate__animated animate__zoomInDown'>Buscando un destino</h1>
-      <FormSearch
-        
-      />
+      <div className="app-row">
+        <div className='col-8 col-s-12'>
+          <FormSearch />
+        </div>
+        <div className="col-4 col-s-12">
+        {
+          bookingSelected?.status
+          &&
+          <div className="app-detail-airline animate__animated animate__slideInRight">
+            <div>
+              <Flight flight={ bookingSelected?.flight?.number }/>
+              <Airline airline={ bookingSelected?.airline?.name}/>
+            </div>
+          </div>
+        }
+        </div>
+      </div>
     </>
   )
 }

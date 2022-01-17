@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setSearchCity } from "../../actions/flight";
 import { hideModal } from "../../actions/modal";
@@ -8,7 +8,8 @@ export const ModalList = ( { source } ) => {
   const { show } = useSelector( state => state.modal )
   const showHideClassName = show ? "modal display-block" : "modal display-none";
   const [{ city }, setCity] = useState({ city : ''})
-  
+  const textInput = useRef();
+
   const dispatch = useDispatch()
 
   const handleHideModal = () => {
@@ -22,6 +23,10 @@ export const ModalList = ( { source } ) => {
     dispatch( setSearchCity( city ))
   }
 
+  useEffect(() => {
+    textInput.current.focus();
+  }, [show]);
+
   return (
     <div className={showHideClassName}>
       <section className="modal-main">
@@ -30,19 +35,20 @@ export const ModalList = ( { source } ) => {
             onClick={handleHideModal}
           >X</span>
         </div>
-        <div className="app-row app-text-center">
+        <div className="app-row-item app-text-center app-container-card">
           <input
             type="text"
-            placeholder="Ciudad"
+            placeholder="Buscar..."
             name="city"
             className="app-input card"
             autoComplete="off"
+            ref={textInput}
             value={city}
             onChange={handleInputChange}
           />
         </div>
-        <div className="app-row app-text-center app-div-list">
-          <ItemList source= { source } />
+        <div className="app-row-item app-text-center app-div-list">
+          <ItemList source= { source } setCity= { setCity }/>
         </div>
       </section>
     </div>

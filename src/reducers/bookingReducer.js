@@ -1,6 +1,7 @@
 import { types } from "../types/types";
 const initialState = {
-  userBooking: {},
+  bookingSelected: {},
+  userBooking: [],
   status: null
 };
 
@@ -15,6 +16,16 @@ export const bookingReducer = (state = initialState, action) => {
       return {
         ...state,
         userBooking: action.payload
+      }
+    case types.setBookingSelected:
+      return {
+        ...state,
+        bookingSelected: action.payload
+      }
+    case types.removeBookingSelected:
+      return {
+        ...state,
+        bookingSelected: {}
       }
     default:
       return state

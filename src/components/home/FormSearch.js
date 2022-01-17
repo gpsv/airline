@@ -1,50 +1,160 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
+import moment from 'moment';
 import { showModal } from '../../actions/modal';
 import { ModalList } from './ModalList'
+import { removeErrorForm, setErrorForm } from '../../actions/forms.js';
+import { addBooking, setBookingSelected } from '../../actions/booking';
 
 export const FormSearch = () => {
-  const { booking, schedules } = useSelector( state => state.home );
   const dispatch = useDispatch()
-  const [source, setSource] = useState('departure')
-
+  const { booking, schedules, loading } = useSelector( state => state.home );
+  const { bookingSelected, userBooking } = useSelector(state => state.booking);
+  const { msgError } = useSelector( state => state.form )
+  const [source, setSource] = useState('departure');
+  const [date, setDate] = useState('');
+  const [person, setPerson] = useState(0);
+  const [price, setPrice] = useState(0)
+  const [priceToday, setPriceTopday] = useState(Math.floor(Math.random() * (1500 - 300 )));
   const actionShowModal = ( source ) => {
     setSource(source)
     dispatch(showModal())
   };
   
+  const selectedDate = ({ target }) => {
+    setDate(target.value);
+    dispatch(setBookingSelected(schedules.data[target.value]));
+    setPriceTopday(Math.floor(Math.random() * (1500 - 300 )))
+  };
+
+  const isFormValid = () => {
+    if (!booking.departure.nameCity) {
+      dispatch(setErrorForm('Selecciona un origen'));
+      return false;
+    } else if (!booking.arrival.nameCity) {
+      dispatch(setErrorForm('Selecciona un destino'));
+      return false;
+    } else if ( date === '' || date === 'Selleciona una fecha' || date === 'No hay horarios' || !bookingSelected?.status) {
+      dispatch(setErrorForm('Selecciona una fecha'));
+      return false;
+    } else if (person === 0) {
+      dispatch(setErrorForm('Agregue a una persona por lo menos'));
+      return false;
+    }
+    dispatch(removeErrorForm('Selecciona un origen'));
+    return true
+  };
+  
+  const handleBooking = (e) => {
+    e.preventDefault();
+    if ( isFormValid() ) {
+      const finalItem = booking;
+      finalItem.persons = person;
+      finalItem.price = price;
+      finalItem.schedule = bookingSelected;
+      const itemCart = [...userBooking, finalItem]
+      dispatch(addBooking(itemCart))
+    }
+  };
+
+  const handlePerson = ({ target }) => {
+    setPerson(target.value)
+    setPrice(Number.parseFloat(target.value * priceToday).toFixed(2))
+  };
+
   return (
     <>
-      <div className="app-container">
-        <form className="app-form animate__animated animate__slideInLeft">
+      <div className="app-container ">
+        <form 
+          className="app-form animate__animated animate__slideInLeft" 
+          onSubmit={handleBooking}
+        >
+        <h1 className='animate__animated animate__zoomInDown'>Buscando un destino</h1>
+          {
+            loading
+            && (<span className='animate__animated animate__fadeInDown'>Buscando...</span>)
+          }
           <div className="app-cardForm">
-            <div className="app-card"
-              onClick={() => actionShowModal('departure')}
-            >
-              <label>{ booking.departure.nameCity  || 'Ciudad' }</label> 
-              <p>Origen</p>
-            </div>
-            <div className="app-card"
-              onClick={() => actionShowModal('arrival')}
-            >
-              <label>{ booking.arrival.nameCity  || 'Ciudad' }</label>
-              <p>{ schedules?.data.length ? 'Destino' : 'Sin destino' }</p>
+            <div className="app-item-row">
+              <div className="app-card col-s-6"
+                onClick={() => actionShowModal('departure')}
+              >
+                <label>{ booking?.departure?.nameCity  || 'Ciudad' }</label> 
+                <p>Origen</p>
+              </div>
+              <div className="app-card col-s-6"
+                onClick={() => actionShowModal('arrival')}
+              >
+                <label>{ booking?.arrival?.nameCity  || 'Ciudad' }</label>
+                <p>
+                  { 
+                    schedules?.data.length 
+                    ? 'Destino' 
+                    : 'Sin destino' 
+                  }
+                </p>
+              </div>
             </div>
           </div>
           <div className="app-cardForm">
-            <div className="app-card">
-              <p>Horario</p>
+          <div className="app-item-row">
+            <div className="app-card col-s-6 col-12">
+              <select className="app-select"
+                onChange={selectedDate}
+              >
+                <option key="ItemInf0">
+                  {
+                    schedules?.data.length > 0 
+                    ? 'Selleciona una fecha' 
+                    : 'No hay horarios'
+                  }
+                </option>
+                {
+                  schedules?.data.length > 0
+                  &&
+                  schedules?.data.map( function ( schedule, index ) {
+                    if( booking?.departure.codeIataCity === schedule?.departure.iataCode
+                      && 
+                      booking?.arrival.codeIataCity === schedule?.arrival.iataCode
+                      ){
+                      return (<option value={ index } key={ index }>{ moment(schedule.arrival.scheduledTime).format('DD-MMM-YY HH:mm:ss') }</option>)
+                    }
+                  })
+                }
+              </select>
+              <p className="app-parrafo">Horario</p>
             </div>
-            <div className="app-card">
-              <p>Numero de personas</p>
+            <div className="app-card col-s-6 col-12">
+              <div className="app-row app-text-center">
+                <p>Numero de personas</p>
+                <input
+                  type="number"
+                  placeholder="Numero de personas"
+                  name="city"
+                  className="app-input card"
+                  autoComplete="off"
+                  value={person}
+                  onChange={handlePerson}
+                />
+              </div>
+                <p>Precio ${ person > 0 && price }</p>
+              </div>
             </div>
           </div>
-            <button
-              type="submit"
-              className="btn btn-primary btn-block"
-            >
-              Buscar
-            </button>
+          <button
+            type="submit"
+            className="btn btn-primary btn-block"
+          >
+            Agregar
+          </button>
+          {   
+            msgError &&
+            (
+              <span  className="animate__animated animate__fadeInDown app-alert-error">
+                  { msgError }
+              </span>
+            )
+          }
         </form>
         <ModalList source={ source }/>
       </div>

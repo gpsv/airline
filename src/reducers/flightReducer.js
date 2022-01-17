@@ -1,23 +1,33 @@
 import { types } from "../types/types";
 
 const initialState = {
-  loading: false,
-  cities: null,
-  allCities: null,
   airports: null,
-  schedules: null,
-  searchCity: { city: ''},
+  allCities: null,
   booking: {
     departure: {},
     arrival: {},
     schedule: {},
     persons: 0,
     price: 0
-  }
+  },
+  cities: null,
+  loading: false,
+  schedules: null,
+  searchCity: { city: ''}
 }
 
 export const flightReducer = (state = initialState, action) => {
   switch (action.type) {
+    case types.flightStartLoading:
+      return {
+        ...state,
+        loading: true
+      }
+    case types.flightFinishLoading:
+      return {
+        ...state,
+        loading: false
+      }
     case types.setCities:
       return {
         ...state,

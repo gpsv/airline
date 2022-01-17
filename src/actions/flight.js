@@ -4,14 +4,17 @@ import { types } from "../types/types";
 
 export const getCities = () => {
   return ( dispatch ) => {
+    dispatch(startLoading())
     const url = `${config.APIURL}${config.Cities}?key=${config.APIKEY}&codeIso2Country=MX`;
       return axios
         .get(url)
         .then(({ data }) => {
-          dispatch(setCities(data))
+          dispatch(setCities(data));
+          dispatch(finishLoading());
         })
         .catch(( error ) => {
           console.log(error);
+          dispatch(finishLoading());
           throw error;
         });
     };
@@ -19,14 +22,17 @@ export const getCities = () => {
 
 export const getAllCities = () => {
   return ( dispatch ) => {
+    dispatch(startLoading());
     const url = `${config.APIURL}${config.Cities}?key=${config.APIKEY}`;
       return axios
         .get(url)
         .then(({ data }) => {
-          dispatch(setAllCities(data))
+          dispatch(setAllCities(data));
+          dispatch(finishLoading());
         })
         .catch(( error ) => {
           console.log(error);
+          dispatch(finishLoading());
           throw error;
         });
     };
@@ -34,14 +40,17 @@ export const getAllCities = () => {
 
 export const getAirports = () => {
   return ( dispatch ) => {
+    dispatch(startLoading())
     const url = `${config.APIURL}${config.Airports}?key=${config.APIKEY}&codeIso2Country=MX`;
       return axios
         .get(url)
         .then( async ({ data } ) => {
           await dispatch( setAirports( data ) )
+          dispatch(finishLoading())
         })
         .catch((error) => {
           console.log(error);
+          dispatch(finishLoading())
           throw error;
         });
     };
@@ -49,14 +58,17 @@ export const getAirports = () => {
 
 export const getSchedules = ( iataCode ) => {
   return ( dispatch ) => {
+    dispatch(startLoading())
     const url = `${config.APIURL}${config.Schedules}?key=${config.APIKEY}&iataCode=${iataCode}&type=departure`;
       return axios
         .get(url)
         .then(({ data }) => {
-          dispatch( setSchedules( data ))
+          dispatch( setSchedules( data ));
+          dispatch(finishLoading());
         })
         .catch(( error ) => {
           console.log(error);
+          dispatch(finishLoading());
           throw error;
         });
     };
@@ -105,3 +117,11 @@ export const setAllCities = (cities) => ({
     data: cities
   }
 });
+
+export const startLoading = () => ({
+  type: types.flightStartLoading
+})
+
+export const finishLoading = () => ({
+  type: types.flightFinishLoading
+})

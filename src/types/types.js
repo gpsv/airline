@@ -5,8 +5,16 @@ export const types = {
   setSearchCity: '[Flight] setSearchCity',
   setBooking: '[Flight] setBooking',
   setSchedules: '[Flight] setSchedules',
+  flightStartLoading: '[Flight] Start loading',
+  flightFinishLoading: '[Flight] Finish loading',
   showModal: '[Modal] showModal ',
   hideModal: '[Modal] hideModal ',
+  error: '[Form] Set Error',
+  removeError: '[Form] Remove Error',
+  startLoading: '[Form] Start loading',
+  finishLoading: '[Form] Finish loading',
+  setBookingSelected: '[Booking] setBookingSelected',
+  removeBookingSelected: '[Booking] removeBookingSelected',
   addBooking: '[Booking] addBooking',
   removeBooking: '[Booking] removeBooking'
 }

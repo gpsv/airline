@@ -1,22 +1,28 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { removeBookingSelected } from '../../actions/booking';
 import { getSchedules, setBooking } from '../../actions/flight';
 import { hideModal } from '../../actions/modal';
 
-export const ItemList = ( { source = 'departure' }) => {
+export const ItemList = ( { source = 'departure',  setCity }) => {
   const { cities, searchCity, booking, schedules, allCities } = useSelector( state => state.home)
   const [arrivalCity, setArrivalCity] = useState([])
   const dispatch = useDispatch()
   const userBooking = booking;
   const handleCity = ( selectedCity ) => {
+    dispatch(removeBookingSelected());
     if ( source === 'departure') {
       userBooking.departure = selectedCity;
+      dispatch( setBooking(userBooking) )
+      dispatch ( getSchedules( selectedCity.codeIataCity ) )
+      userBooking.arrival = {}
+      dispatch( setBooking(userBooking) )
     } else {
       userBooking.arrival = selectedCity;
+      dispatch( setBooking(userBooking) )
     }
-    dispatch( setBooking(userBooking) )
-    dispatch ( getSchedules( selectedCity.codeIataCity ) )
-    dispatch( hideModal() )
+    setCity({ city : ''});
+    dispatch( hideModal() );
   }
 
   const setArrivalCities = async () => {
@@ -43,11 +49,11 @@ export const ItemList = ( { source = 'departure' }) => {
             city?.nameCity.toLowerCase().indexOf( searchCity.city ) >= 0
               &&
               <li 
-                key={ city.cityId }
+                key={ city?.cityId }
                 onClick={ () => handleCity(city) }
               >
-                <div className="col-8 app-list-city">{ city.nameCity }</div>
-                <div className="col-2 app-list-code">{ city.codeIataCity }</div>
+                <div className="col-8 app-list-city">{ city?.nameCity }</div>
+                <div className="col-2 app-list-code">{ city?.codeIataCity }</div>
               </li>
           ))
           :
@@ -57,11 +63,11 @@ export const ItemList = ( { source = 'departure' }) => {
             city?.nameCity.toLowerCase().indexOf( searchCity.city ) >= 0
               &&
               <li 
-                key={ city.cityId }
+                key={ 'Id' + city?.cityId }
                 onClick={ () => handleCity(city) }
               >
-                <div className="col-8 app-list-city">{ city.nameCity }</div>
-                <div className="col-2 app-list-code">{ city.codeIataCity }</div>
+                <div className="col-8 app-list-city">{ city?.nameCity }</div>
+                <div className="col-2 app-list-code">{ city?.codeIataCity }</div>
               </li>
           ))
         }
