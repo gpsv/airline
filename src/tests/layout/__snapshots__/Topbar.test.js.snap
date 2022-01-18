@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Pruebas en <TopBar/> Debe de mostrar el componente correctamente 1`] = `
+<Fragment>
+  <nav
+    className="navigation"
+  >
+    <NavLink
+      className="app-navlink "
+      exact="true"
+      to="/"
+    >
+      Home
+    </NavLink>
+    <NavLink
+      className="app-navlink"
+      exact="true"
+      to="/flightBooking"
+    >
+      Mis reservas
+    </NavLink>
+  </nav>
+</Fragment>
+`;
